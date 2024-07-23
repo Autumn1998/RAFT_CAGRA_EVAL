@@ -1,0 +1,3 @@
+[submodule "src/anns_dataset"]
+	path = src/anns_dataset
+	url = https://github.com/enp1s0/anns_dataset
