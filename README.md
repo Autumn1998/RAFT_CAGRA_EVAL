@@ -9,13 +9,13 @@ make -j32 # It takes for a while
 cd ..
 ```
 
-## Env var
+## Set env vars
 ```bash
 # Input
 export RAFT_INDEX_PATH=/path/to/raft/index
+export DATASET_DTYPE=float
 
 # Output
-export INTERNAL_DATASET_DTYPE=float
 export INTERNAL_DATASET_PATH=tmp.idataset
 export INTERNAL_GRAPH_PATH=tmp.igraph
 ```
@@ -23,7 +23,7 @@ export INTERNAL_GRAPH_PATH=tmp.igraph
 ## Run
 ### Convert raft CAGRA index to internal CAGRA graph / dataset files
 ```bash
-./build/conv $RAFT_INDEX_PATH $INTERNAL_DATASET_DTYPE $INTERNAL_GRAPH_PATH $INTERNAL_DATASET_PATH
+./build/conv $RAFT_INDEX_PATH $DATASET_DTYPE $INTERNAL_GRAPH_PATH $INTERNAL_DATASET_PATH
 ```
 
 ### Graph stats
@@ -36,5 +36,5 @@ python ./connected_components.py $INTERNAL_GRAPH_PATH
 
 ### Dataset stats
 ```
-./build/dataset_stats $INTERNAL_DATASET_PATH $INTERNAL_DATASET_DTYPE
+./build/dataset_stats $INTERNAL_DATASET_PATH $DATASET_DTYPE
 ```
