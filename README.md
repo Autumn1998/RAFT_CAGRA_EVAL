@@ -2,6 +2,9 @@
 
 ## Build
 ```bash
+ssh://git@gitlab-master.nvidia.com:12051/hootomo/raft-cagra-dataset-eval.git --recursive
+cd raft-cagra-dataset-eval
+
 mkdir build
 cd build
 cmake ..
