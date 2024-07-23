@@ -34,6 +34,20 @@ rapids_cpm_init()
 include(cmake/thirdparty/get_raft.cmake)
 
 # -------------- compile tasks ----------------- #
+
+find_package(OpenMP REQUIRED)
+if(OpenMP_FOUND)
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif()
+
 add_executable(conv src/conv.cu)
 target_include_directories(conv PUBLIC src/anns_dataset/include)
 target_link_libraries(conv PRIVATE raft::raft raft::compiled)
+
+add_executable(graph_stats src/graph_stats.cu)
+target_include_directories(graph_stats PUBLIC src/anns_dataset/include src/histo/include)
+
+target_link_libraries(graph_stats PRIVATE
+  OpenMP::OpenMP_CXX
+  )
