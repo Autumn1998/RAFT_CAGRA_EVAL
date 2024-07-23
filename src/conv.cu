@@ -16,7 +16,7 @@ void core(
   std::vector<data_t> graph(num_graph_elements);
   cudaMemcpy(graph.data(), cagra_index.graph().data_handle(), sizeof(data_t) * num_graph_elements, cudaMemcpyDefault);
 
-  mtk::anns_dataset::store(output_path, cagra_index.size(), cagra_index.graph_degree(), graph.data(), mtk::anns_dataset::format_t::FORMAT_BIGANN | mtk::anns_dataset::format_t::HEADER_U64, true);
+  mtk::anns_dataset::store(output_path, cagra_index.size(), cagra_index.graph_degree(), graph.data(), mtk::anns_dataset::format_t::FORMAT_BIGANN | mtk::anns_dataset::format_t::HEADER_U32, true);
 }
 
 int main(int argc, char** argv) {
