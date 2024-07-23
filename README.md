@@ -8,7 +8,7 @@ cd raft-cagra-dataset-eval
 mkdir build
 cd build
 cmake ..
-make -j32 # It takes for a while
+make -j32 # it will take for a while
 cd ..
 ```
 
