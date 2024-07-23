@@ -1,57 +1,12 @@
 #include <iostream>
-#include <algorithm>
-#include <vector>
-#include <numeric>
-#include <fstream>
 #include <anns_dataset.hpp>
 #include <histo/histo.hpp>
 
 #include <omp.h>
 
+#include "utils.hpp"
+
 namespace {
-struct stat_t {
-  float max, min, avg;
-  float q1, q2, q3;
-};
-
-template <class T>
-stat_t get_stat(
-  T* const ptr,
-  const std::size_t N
-  ) {
-  stat_t stat;
-
-  if (N < 3) {
-    std::runtime_error("N must be larger or equal to 3");
-  }
-
-  std::sort(ptr, ptr + N);
-
-  const auto get_med = [](const T* const ptr, const std::size_t N) -> float {
-    if ((N - 1) % 2 != 0) {
-      return (ptr[(N - 2) / 2] + ptr[N / 2]) / 2.f;
-    } else {
-      return ptr[(N - 1) / 2];
-    }
-  };
-
-  stat.q2 = get_med(ptr, N);
-  if (N % 2 == 0) {
-    stat.q1 = get_med(ptr              , (N - 1) / 2);
-    stat.q3 = get_med(ptr + (N + 1) / 2, (N - 1) / 2);
-  } else {
-    stat.q1 = get_med(ptr        , N / 2);
-    stat.q3 = get_med(ptr + N / 2, N / 2);
-  }
-
-  stat.max = ptr[N - 1];
-  stat.min = ptr[0];
-  stat.avg = std::accumulate(ptr, ptr + N, 0.f, [&](const T a, const float b) {return static_cast<float>(a) + b;}) / N;
-
-  return stat;
-}
-
-
 template <class index_t>
 void eval_two_hop_nodes(
   const index_t* const graph_ptr,
@@ -100,7 +55,7 @@ void eval_two_hop_nodes(
   }
   std::printf("\n");
 
-  const auto stat = get_stat(num_counted_nodes_list_ptr, size);
+  const auto stat = mtk::get_stat(num_counted_nodes_list_ptr, size);
 
   std::printf("eval,degree,min,avg,max,q1,q2,q3\n");
   std::printf("%s,%lu,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f\n",
@@ -136,7 +91,7 @@ void eval_incoming_count(
     num_counted_nodes_list[v]++;
   }
 
-  const auto stat = get_stat(num_counted_nodes_list_ptr, size);
+  const auto stat = mtk::get_stat(num_counted_nodes_list_ptr, size);
 
   std::printf("eval,degree,min,avg,max,q1,q2,q3\n");
   std::printf("%s,%lu,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f\n",

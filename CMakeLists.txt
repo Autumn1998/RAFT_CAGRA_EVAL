@@ -47,7 +47,12 @@ target_link_libraries(conv PRIVATE raft::raft raft::compiled)
 
 add_executable(graph_stats src/graph_stats.cu)
 target_include_directories(graph_stats PUBLIC src/anns_dataset/include src/histo/include)
-
 target_link_libraries(graph_stats PRIVATE
+  OpenMP::OpenMP_CXX
+  )
+
+add_executable(dataset_stats src/dataset_stats.cu)
+target_include_directories(dataset_stats PUBLIC src/anns_dataset/include src/histo/include)
+target_link_libraries(dataset_stats PRIVATE
   OpenMP::OpenMP_CXX
   )
